@@ -3,7 +3,7 @@
  */
 function start(array) {
     document.getElementById('resultSize').innerHTML = ''
-    document.getElementById('resultSize').innerHTML += '<br>Начальный размер:' + array.length / 1024 + 'Кб';
+    document.getElementById('resultSize').innerHTML += '<br>Start size:' + array.length / 1024 + 'Кб';
 
     let huffman = new Huffman();
 
@@ -21,12 +21,12 @@ function start(array) {
         file = new Blob([coddedArray]);
 
     document.getElementById('table').innerHTML = '';
-    document.getElementById('table').innerHTML += '<br>Таблица кодов';
+    document.getElementById('table').innerHTML += '<br>Table of codes';
     for (let {symbol, code} of huffman._codeTable) {
         document.getElementById('table').innerHTML += '<br>' + symbol + ':' + code;
     }
-    document.getElementById('resultSize').innerHTML += '<br>Итоговый размер:' + coddedArray.length / 1024 + 'Кб';
-    document.getElementById('time').innerHTML = '<br>Время кодирования: ' + time/1000 + 'С';
+    document.getElementById('resultSize').innerHTML += '<br>End size:' + coddedArray.length / 1024 + 'Кб';
+    document.getElementById('time').innerHTML = '<br>Time: ' + time/1000 + 'S';
     const path = document.getElementById("inputFile").value;
     const fileName = path.match(/[^\/\\]+$/) + '.hfmn';
     if (window.navigator.msSaveOrOpenBlob) // IE10+
@@ -36,7 +36,7 @@ function start(array) {
         a.href = url;
         a.download = fileName;
         document.body.appendChild(a);
-        if (confirm("Скачать файл?")) {
+        if (confirm("Download file?")) {
             a.click();
             setTimeout(function () {
                 document.body.removeChild(a);
@@ -46,10 +46,10 @@ function start(array) {
     }
 
     if (coddedArray.length / 1024 >= 1) {
-        alert('Дополнительная информация показывается только для файлов, размер которых после сжатия < 1Кб');
+        alert('Additional info showing only for files with size, that they have after zipping, <1Kb');
     }
 
-    if (coddedArray.length / 1024 < 1 && confirm("Показать дополнительную информацию?")) {
+    if (coddedArray.length / 1024 < 1 && confirm("Show additional info?")) {
 
         let textArea = document.getElementById('bytes');
         textArea.value = '';

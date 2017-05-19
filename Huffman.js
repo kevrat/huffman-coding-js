@@ -26,7 +26,7 @@ class Huffman {
     coding(array) {
         let tree = [];
 
-        //Инициализация листьев дерева
+        //Init branches of tree
         for (let byte of array) {
             let exist = false;
             for (let node of tree) {
@@ -40,7 +40,7 @@ class Huffman {
             }
         }
 
-        //Построение дерева
+        //Create tree
         while (tree.length > 1) {
             let minNode1 = Huffman.getNodeWithMinFrequency(tree);
             let minNode2 = Huffman.getNodeWithMinFrequency(tree);
@@ -52,9 +52,9 @@ class Huffman {
             })
         }
 
-        let codeTable = [];//таблица кодов
+        let codeTable = [];//table of codes
 
-        //Функция обхода дерева, заполняющая таблицу
+        //Filling table using tree
         function preOrderTravers(root, code = '') {
             if (root.left && root.right) {
 
@@ -99,34 +99,34 @@ class Huffman {
             return 64
         }
 
-        //Пишем таблицу в файл
+        //Write table
         bitArray = Huffman.writeTableToBitArray(bitArray, codeTable, this._charNumberLengthAuto ? getAutoCharNumberLength(codeTable) : this._charNumberLength);
 
-        //Пишем итоговую строку кодов в файл
+        //Write code
         bitArray = Huffman.writeCompressDataToArray(bitArray, array, codeTable);
 
-        //Вычисляем длину последнего байта
+        //Get length of last byte
         let lastByte = bitArray.length % 8;
 
         lastByte = Huffman.fillUntil(lastByte.toString(2), 8);
 
-        //заполняем оставшееся место в последнем байте нулями
+        //Fill last byte with 0
         let tailLength = 8 - bitArray.length % 8;
         for (let i = 0; i < tailLength; i++) {
             bitArray += 0;
         }
 
-        //Пишем длину последнего байта в конец
+        //Write length of last byt in end
         bitArray += lastByte;
 
         return Huffman.bitStringToUint8Array(bitArray);
     }
 
     static writeTableToBitArray(bitArray, codeTable, charNumberLength = 8) {
-        //Пишем кол-во символов в файл [1 byte]
+        //Write symbols size [1 byte]
         const charactersLength = codeTable.length;
         bitArray += Huffman.fillUntil(charactersLength.toString(2), 8);
-        //Пишем в файл для всех символов: символ и кол-во его повторений
+        //ПWrite in file for all symbols: symbol and him num of repeats
         for (let code of codeTable) {
             bitArray += Huffman.fillUntil(parseInt(code.symbol.charCodeAt(), 10).toString(2), 8);
             bitArray += Huffman.fillUntil(code.frequency.toString(2), charNumberLength);
@@ -147,7 +147,6 @@ class Huffman {
         return bitArray;
     }
 
-    //Функция получения вершины с минимальной частотой
     static getNodeWithMinFrequency(tree) {
         let minNode = tree[0];
         for (let node of tree) {
@@ -178,5 +177,5 @@ class Huffman {
         return bufView;
     }
 
-    //|Кол-во символов [1 байта]|[Сам символ [1 байт] + кол-во повторений [4 байта] = [5 байт]]*n|Последовательность[...]|Длина последнего байта [1 байт]|
+    //|Num of symbols in table [1 byte]|[Symbol [1 byte] + him repeats [1,2,4,8 bytes]]*n|Code[...]|Length of last byte [1 byte]|
 }
