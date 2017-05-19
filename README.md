@@ -1,2 +1,2 @@
 # huffman-coding-js
-Huffman coding in your browser with effectiveness chart
+Кодер Хаффмана в вашем браузере (eng version on master branch)
