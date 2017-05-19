@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        textarea {
+            height: 15vh;
+            resize: vertical;
+        }
+
+        .outputs, .inputField {
+            display: flex;
+            align-content: stretch;
+            align-items: stretch;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 30%;
+            margin: 10px;
+        }
+
+        .inputField {
+            min-height: 0;
+            margin: 10px;
+        }
+
+        #btnStart {
+            margin: 10px;
+        }
+
+        .table {
+            white-space: pre-wrap;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+<p>
+    <div class="inputField">
+        <input id="inputFile" type="file"/>
+        или
+        <input id="inputString" placeholder="Строка символов"/>
+        <label>
+            <p>Количество байт, отведенных под частоту символа в итоговом файле</p>
+            <input name="num" type="radio" value=8 checked>8
+            <input name="num" type="radio" value=16>16
+            <input name="num" type="radio" value=32>32
+            <input name="num" type="radio" value=64>64
+            <input name="num" type="radio" value="auto">auto
+        </label>
+    </div>
+
+</p>
+<p>
+    <button id="btnStart">Кодировать</button>
+</p>
+
+<div class="outputs">
+    <label for="bytes">Файл в байтовом представлении</label>
+    <textarea id="bytes"></textarea>
+    <label for="bites">Файл в битовом представлении</label>
+    <textarea id="bites"></textarea>
+    <label for="result">Итоговый код</label>
+    <textarea id="result"></textarea>
+    <label id="resultSize"></label>
+    <label id="time"></label>
+    <div id="table"></div>
+</div>
+
+</body>
+<script src="Huffman.js"></script>
+<script src="index.js"></script>
+</html>
